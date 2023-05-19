@@ -626,8 +626,8 @@ resource "aws_lb_listener" "frontend_http_tcp" {
 
   load_balancer_arn = aws_lb.this[0].arn
 
-  port     = var.http_tcp_listeners[count.index]["port"]
-  protocol = var.http_tcp_listeners[count.index]["protocol"]
+  port     = "443"
+  protocol = "HTTPS"
 
   dynamic "default_action" {
     for_each = length(keys(var.http_tcp_listeners[count.index])) == 0 ? [] : [var.http_tcp_listeners[count.index]]
@@ -691,6 +691,8 @@ resource "aws_lb_listener" "frontend_http_tcp" {
     var.http_tcp_listeners_tags,
     lookup(var.http_tcp_listeners[count.index], "tags", {}),
   )
+  ssl_policy      = "ELBSecurityPolicy-2016-08"
+  certificate_arn = "<Provide the ARN of the default SSL server certificate>"
 }
 
 resource "aws_lb_listener" "frontend_https" {
