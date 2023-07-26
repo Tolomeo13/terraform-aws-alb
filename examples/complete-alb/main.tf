@@ -477,6 +477,8 @@ resource "aws_instance" "this" {
   ami           = data.aws_ami.amazon_linux.id
   instance_type = "t3.nano"
   subnet_id     = element(module.vpc.private_subnets, 0)
+  ebs_optimized = true
+  monitoring = true
 }
 
 #############################################
